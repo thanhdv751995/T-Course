@@ -1,0 +1,12 @@
+import * as Attachments from './attachments';
+import * as Comments from './comments';
+import * as Contact from './contact';
+import * as Contacts from './contacts';
+import * as Courses from './courses';
+import * as DanhMucs from './danh-mucs';
+import * as JoinCourses from './join-courses';
+import * as KhoaHocs from './khoa-hocs';
+import * as Lessons from './lessons';
+import * as Rates from './rates';
+import * as Users from './users';
+export { Attachments, Comments, Contact, Contacts, Courses, DanhMucs, JoinCourses, KhoaHocs, Lessons, Rates, Users };

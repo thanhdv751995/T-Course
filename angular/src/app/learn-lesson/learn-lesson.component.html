@@ -1,0 +1,240 @@
+
+  <!-- Start of Header section
+  ============================================= -->
+  <!-- Start of breadcrumb section
+  ============================================= -->
+  <section id="breadcrumb" class="breadcrumb-section relative-position backgroud-style">
+    <div class="blakish-overlay"></div>
+    <div class="container">
+      <div class="page-breadcrumb-content text-center">
+        <div class="page-breadcrumb-title">
+          <h2 class="breadcrumb-head black bold"><span>Chi Tiết</span> Khoá Học</h2>
+        </div>
+        <div class="page-breadcrumb-item ul-li">
+          <ul class="breadcrumb text-uppercase black">
+            <li class="breadcrumb-item"><a href="index-1.html">Trang Chủ</a></li>
+            <li class="breadcrumb-item active">Chi Tiết</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- End of breadcrumb section
+  ============================================= -->
+  <!-- Start of course details section
+  ============================================= -->
+  <section id="course-details" class="course-details-section">
+    <div *ngIf="flag" class="col-md-9 container">
+      <div class="row">
+        <div class="col-md-8">
+          <div class="course-details-item">
+            
+            <iframe class="e2e-iframe-trusted-src" width="100%" height="500px" [src]="videoUrl" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+           
+            <div class="blog-comment-area ul-li about-teacher-2">
+              <div class="course-details-content">
+                <h2>
+                 {{lesson?.name}}
+                </h2>
+                <p>
+                 {{lesson?.description}}
+                </p>
+                <div>
+                  <h3>Bạn sẽ học được gì</h3>
+                  <section>
+                    <section>
+                      <ul class="Target"
+                          style="list-style-type:1F44D;display: flex;margin-bottom: 10px;flex-wrap: wrap; ">
+                        {{lesson.benefit}}
+                      </ul>
+                    </section>
+                  </section>
+                </div>
+              </div>
+
+            </div>
+            
+            <div class="couse-comment">
+              <div class="blog-comment-area ul-li about-teacher-2">
+
+                <div class="container mb-4 mt-4">
+                <!-- CommentHere -->
+                <div class="card">
+        <div class="row">
+            <div class="col-md-12">
+                <h5 class="text-center mb-4"><i class="fas fa-comments"></i> Bình Luận ({{comments?.items.length}})</h5>
+                <div class="row">
+                    <div class="col-md-12">
+                      <div *ngFor="let comment of comments?.items">
+                        <br>
+                        <div *ngIf="comment.idParent==null"  class="media"> 
+                          <img class="mr-3 rounded-circle myImg" alt="Bootstrap Media Preview" (click)="showM(apiHost + comment?.avartar)" src="{{apiHost + comment?.avartar}}" />
+                          <div class="media-body">
+                              <div class="row">
+                                  <div class="col-8 d-flex">
+                                      <h5>{{comment.userName}}</h5> <span id="time">{{comment?.creationTime|date:'medium'}}</span>
+                                  </div>                                 
+                              </div> 
+                              {{comment?.content}}
+                              <img class="myImg" *ngIf="comment.url!=null" (click)="showM(apiHost + comment?.url)" style="display: inherit;width: 50%;height: 50%;" src="{{apiHost + comment?.url}}">
+                              <div *ngIf="comment?.idUser==currentUserLogin" class="dropdown1">
+                                <span><b>...</b></span>
+                                <div class="dropdown-content">
+                                <a type="button" (click)="editComment(comment.id)">Chỉnh sửa
+                                </a>
+                                <br>
+                                <a type="button" (click)="deleteComment(comment.id)" >Xóa</a>
+                                </div>
+                              </div>
+                                <div>
+                                  
+                                  <div class="col-4">
+                                    <button  type="button" class="btn btn-outline-primary btn-sm" (click)="toggle(comment.id)"  id="bt">
+                                    <i class="fas fa-reply"></i> {{ IdComment == comment.id ? buttonName:"Trả lời"}}
+                                    </button>
+                                  <ng-container *ngIf="show">
+                                    <div *ngIf="IdComment==comment.id">
+                                      <div style="margin: 0 auto;text-align: left;">
+                                        
+                                          <div>
+                                            <label><b>Nội dung:</b></label>
+                                            <div><textarea class="form-control customArea" rows="5" cols="46" required="required" [(ngModel)]="ContentChild"></textarea></div>
+                                            <div>
+                                              <button type="reset" class="btn btn-primary" (click)="createComment(comment.id,false)">
+                                              <i class="far fa-paper-plane"></i> Gửi</button>
+                                            </div>
+                                        </div>
+                                      
+                                    </div>
+                                    </div>
+                                  </ng-container>
+                                  </div>
+                                </div>                
+                              
+                                
+                                    <div *ngFor="let childComment of comments?.items">
+                                      <div *ngIf="childComment.idParent==comment.id">
+                                        <div class="media mt-4"> <a class="pr-3">
+                                          <img class="rounded-circle myImg" alt="Image" (click)="showM(apiHost +childComment.avartar)" src="{{apiHost +childComment.avartar}}" /></a>
+                                          <div class="media-body">
+                                              <div class="row">
+                                                  <div class="col-12 d-flex">
+                                                      <h5>{{childComment.userName}}</h5> <span id="time" >{{childComment?.creationTime|date:'medium'}}</span>
+                                                  </div>
+                                              </div>{{childComment.content}}
+                                              <img class="myImg" (click)="showM(apiHost +childComment.url)" *ngIf="childComment.url" style="display: inherit;width: 200px;height: 200px;" src="{{apiHost +childComment.url}}">
+                                              <div *ngIf="childComment?.idUser==currentUserLogin" class="dropdown1">
+                                                <span><b>...</b></span>
+                                                <div class="dropdown-content">
+                                                <a type="button" (click)="editComment(childComment.id)">Chỉnh sửa
+        
+                                                </a>
+                                                <br>
+                                                <a type="button" (click)="deleteComment(childComment.id)" >Xóa</a>
+                                                </div>
+                                                
+                                              </div>
+                                          </div>
+
+                                      </div>
+                                      </div>
+                                    </div>
+                          </div>
+                      </div>
+                      </div>
+                      <div class="wrapper-button">
+                        <button *ngIf="comments?.totalCount>0" (click)="loadMore()" type="button" class="btn btn-link">
+                          {{load}}</button>
+                      </div>
+                      <!-- <ng-template #loadData>
+                        <loading-indicator></loading-indicator>
+                      </ng-template> -->
+                      
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>              
+</div>
+
+  <div class="blog-comment-area ul-li about-teacher-2" style="padding-bottom: 10px;">
+    <div class="teacher-faq-form">
+                    <form method="POST" action="https://jthemes.net/no-form"
+                          data-lead="Residential"> 
+                    
+                          
+                      <label for="comments">Nội dung</label>
+                      <textarea class="form-control" name="comments" id="comments" rows="2" cols="20"
+                                required="required" [(ngModel)]="content" ></textarea>
+                                <div class="custom-file">
+                                  <input type="file" class="custom-file-input" id="myFile" name="filename" (change)="selectedFileInput($event.target.files)">
+                                  <label class="custom-file-label" for="customFile"><i class="fa fa-paperclip" aria-hidden="true"></i> {{fileName}}</label>
+                                </div>
+                                <!-- <input type="file" id="myFile" name="filename" (change)="selectedFileInput($event.target.files)"> -->
+                      <div *ngIf="currentUserLogin" class="nws-button text-center  gradient-bg text-uppercase">
+                        <button [disabled]="show" type="reset" class="btn btn-primary" (click)="createComment(null,true)"> Bình luận
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4" style="right:0">
+          <span><h3>{{lesson?.coursesName}}</h3></span>
+          <div class="affiliate-market-accordion">
+            <div *ngFor="let lesson of lessons?.items" id="accordion" class="panel-group">
+
+              <div class="panel">
+                <div class="ac-head">
+												<button class="btn btn-link">
+													<span>
+                            <a type="button" class="btn btn-link" routerLink="/learn/{{currentUrl?.idCourse}}/{{lesson?.lessonID}}" class="lessonTitle">{{lesson?.lessonName}}</a>
+                          </span>
+												</button>
+
+											</div>
+                <!-- <div class="panel-title" id="headingFoure">
+                  <div class="lesson">
+                    <a href="/learn/{{courseID?.idCourse}}/{{lesson?.lessonID}}" class="lessonTitle">{{lesson?.lessonName}}</a>
+                    <span class="lessonTime"> : 25:03</span>
+                  </div>
+                </div> -->
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div [style.display]="showModal ? 'block' : 'none'" class="modal" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+    <div class="modal-content">
+    <div class="modal-body">
+      <img src="{{modalImage}}" id="imagepreview" style="width: 100%; height: 100%;" >
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" data-dismiss="modal" (click) = "hide()">Close</button>
+    </div>
+    </div>
+    </div>
+    </div>
+  </section>
+  <!-- End of course details section
+  ============================================= -->
+  <!-- Start of footer section
+  ============================================= -->
+  
+  <!-- End of footer section
+  ============================================= -->
+
+
+  
+
+<!-- Mirrored from jthemes.net/themes/html/genius-course/course-details.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 26 Mar 2021 03:53:14 GMT -->
+

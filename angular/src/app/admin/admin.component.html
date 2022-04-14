@@ -1,0 +1,135 @@
+<body style="overflow-x: hidden;">
+    <div class="page-wrapper chiller-theme toggled">
+        <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
+          <i class="fas fa-bars"></i>
+        </a>
+        <nav id="sidebar" class="sidebar-wrapper">
+          <div class="sidebar-content">
+            <div class="sidebar-brand">
+              <img src="../../assets/img/favicon/favicon-4.png" alt="" style="padding-right: 20px;">
+              <a href="">Administrator</a>
+              <div id="close-sidebar">
+                <i class="fas fa-times"></i>
+              </div>
+            </div>
+            <div class="sidebar-header">
+              <div class="user-pic">
+                <img class="img-responsive img-rounded" src="{{apisHost+currentUserLoginApi?.extraProperties.Avatar}}" alt="User picture">
+              </div>
+              <div class="user-info">
+                <span class="user-name">
+                  <strong>{{currentUserLoginApi?.name}}</strong>
+                </span>
+                <span class="user-role">{{currentUserLogin?.role}}</span>
+                <span class="user-status">
+                  <i class="fa fa-circle"></i>
+                  <span>Online</span>
+                </span>
+              </div>
+            </div>
+            <!-- sidebar-header  -->
+            <!-- <div class="sidebar-search">
+              <div>
+                <div class="input-group">
+                  <input type="text" class="form-control search-menu" placeholder="Search...">
+                  <div class="input-group-append">
+                    <span class="input-group-text">
+                      <i class="fa fa-search" aria-hidden="true"></i>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div> -->
+            <!-- sidebar-search  -->
+            <div class="sidebar-menu">
+              <ul>
+                <!-- <li class="header-menu">
+                  <span>General</span>
+                </li> -->
+                <li class="sidebar-dropdown">
+                  <a routerLink="">
+                    <i class="fa fa-home"></i>
+                    <span>Home</span>
+                  </a>
+                 
+                </li>
+                
+                <li class="sidebar-dropdown">
+                  <a routerLink="user">
+                    <i class="fa fa-user"></i>
+                    <span>Người dùng</span>
+                  </a>                
+                </li>
+                <!-- <li class="sidebar-dropdown">
+                  <a routerLink="role">
+                    <i class="fa fa-user-tag"></i>
+                    <span>Quyền</span>
+                  </a>
+                  
+                </li> -->
+                <li class="sidebar-dropdown">
+                    <a routerLink="category">
+                      <i class="fa fa-list-ol"></i>
+                      <span>Danh mục</span>
+                    </a>
+                    
+                  </li>
+                <li class="sidebar-dropdown">
+                  <a routerLink="course">
+                    <i class="fa fa-clipboard-list"></i>
+                    <span>Khóa học</span>
+                  </a>
+                  
+                </li>
+                <li class="sidebar-dropdown">
+                  <a routerLink="lesson">
+                    <i class="fa fa-book"></i>
+                    <span>Bài học</span>
+                  </a>
+                  
+                </li>
+                <li class="sidebar-dropdown">
+                  <a routerLink="contact">
+                    <i class="fa fa-info"></i>
+                    <span>Thông tin liên hệ</span>
+                  </a>
+                  
+                </li>
+                
+                <li>
+                  <a  type="button" (click)="logOut()" >
+                    <i class="fa fa-sign-out-alt"></i>
+                    <span>Đăng xuất</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <!-- sidebar-menu  -->
+          </div>
+          <!-- sidebar-content  -->
+          <!-- <div class="sidebar-footer">
+            <a href="#">
+              <i class="fa fa-bell"></i>
+              <span class="badge badge-pill badge-warning notification">3</span>
+            </a>
+            <a href="#">
+              <i class="fa fa-envelope"></i>
+              <span class="badge badge-pill badge-success notification">7</span>
+            </a>
+            <a href="#">
+              <i class="fa fa-cog"></i>
+              <span class="badge-sonar"></span>
+            </a>
+            <a href="#">
+              <i class="fa fa-power-off"></i>
+            </a>a
+          </div> -->
+        </nav>
+        <!-- sidebar-wrapper  -->
+        <router-outlet></router-outlet>
+        
+        <!-- page-content" -->
+      </div>
+      <!-- page-wrapper -->
+
+</body>

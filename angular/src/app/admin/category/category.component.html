@@ -1,0 +1,138 @@
+<div class="container">
+  <div class="table-wrapper">
+    <div class="table-title">
+      <div class="row">
+        <div class="col-sm-12">
+          <h2 style="text-align: center; font-weight: bold">Quản lý danh mục</h2>
+        </div>
+      </div>
+    </div>
+    <div class="search">
+      <div>
+        <div class="input-group" style="padding-right: 70%; padding-bottom: 9px">
+          <input
+            [(ngModel)]="searchText"
+            type="text"
+            name="search"
+            autocomplete="off"
+            class="form-control search-menu"
+            placeholder="Search..."
+          />
+          <div class="input-group-append">
+            <span class="input-group-text">
+              <i class="fa fa-search" aria-hidden="true"></i>
+            </span>
+          </div>
+          <div style="position: absolute; right: 0">
+            <button id="create" class="btn btn-success" type="button" (click)="createCategory()">
+              <i class="fa fa-plus-square"></i>&nbsp; <span>Thêm danh mục</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="table-responsive bs-example widget-shadow">
+      <table class="table table-striped">
+        <thead class="thead-light">
+          <tr>
+            <th></th>
+            <th (click)="sort('id')">Id<i class="fa fa-sort"></i></th>
+            <th (click)="sort('name')" style="width: 190px">
+              Tên danh mục<i class="fa fa-sort"></i>
+            </th>
+            <th (click)="sort('description')" style="width: 820px">
+              Mô tả<i class="fa fa-sort"></i>
+            </th>
+            <th (click)="sort('idParent')" style="width: 200px">
+              Danh mục cha<i class="fa fa-sort"></i>
+            </th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="
+              let cat of categories?.items
+                | orderBy: key:reserve
+                | filter: searchText
+                | slice: (SkipCount - 1) * MaxResultCount:SkipCount * MaxResultCount
+            "
+          >
+            <td></td>
+            <td>{{ cat?.id }}</td>
+            <td>{{ cat?.name }}</td>
+            <td>{{ cat?.description }}</td>
+            <td>{{ cat?.parentName }}</td>
+            <td>
+              <a class="edit" type="button" (click)="editCategory(cat?.id)"
+                ><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a
+              >
+              <a class="delete" type="button" (click)="delete(cat.id)"
+                ><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a
+              >
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="hint-text">
+      Tổng <b>{{ categories.totalCount }}</b> danh mục
+    </div>
+    <ngb-pagination
+      class="pagination"
+      [(page)]="SkipCount"
+      [pageSize]="MaxResultCount"
+      [collectionSize]="categories.totalCount"
+    >
+    </ngb-pagination>
+  </div>
+</div>
+<!-- Edit Modal HTML -->
+
+<abp-modal [(visible)]="isModalOpen">
+  <ng-template #abpHeader>
+    <h3>{{ (selectedCategory.id ? '::Sửa Danh Mục' : '::Thêm Danh Mục') | abpLocalization }}  <img src="../../../assets/img/favicon/favicon-4.png" ></h3>
+  </ng-template>
+
+  <ng-template #abpBody>
+    <form [formGroup]="form" (ngSubmit)="save()">
+      <div class="form-group">
+        <label for="category-name">Tên danh mục</label><span> * </span>
+        <input type="text" id="name" class="form-control" formControlName="name" autofocus />
+      </div>
+      <div class="form-group">
+        <label for="category-description">Mô tả</label><span> * </span>
+        <input type="text" id="description" class="form-control" formControlName="description" />
+      </div>
+      <div class="form-group">
+        <label for="category-id">Chọn danh mục</label><span> * </span>
+        <br />
+          <nz-select id="trong" nzShowSearch nzAllowClear nzPlaceHolder="Select a category" formControlName="idParent" [nzBackdrop]="true">
+              <nz-option
+                *ngFor="let category of categories$ | async"
+                [nzLabel]="category.name"
+                [nzValue]="category.id"
+              ></nz-option>
+          </nz-select>
+        <!-- <select class="form-control" id="idParent" formControlName="idParent">
+          <option [ngValue]="null" selected>Select</option>
+          <option [ngValue]="category?.id" *ngFor="let category of categories$ | async">
+            {{ category.name }}
+          </option>
+        </select> -->
+      </div>
+    </form>
+  </ng-template>
+
+  <ng-template #abpFooter>
+    <button type="button" class="btn btn-secondary" #abpClose>
+      {{ '::Close' | abpLocalization }}
+    </button>
+
+    <button class="btn btn-primary" (click)="save()" [disabled]="form.invalid">
+      <i class="fa fa-check mr-1"></i>
+      {{ '::Save' | abpLocalization }}
+    </button>
+  </ng-template>
+</abp-modal>

@@ -1,0 +1,149 @@
+<section id="breadcrumb" class="breadcrumb-section relative-position backgroud-style">
+    <div class="blakish-overlay"></div>
+    <div class="container">
+        <div class="page-breadcrumb-content text-center">
+            <div class="page-breadcrumb-title">
+                <h2 class="breadcrumb-head black bold"><span>Profile</span></h2>
+            </div>
+            <div class="page-breadcrumb-item ul-li">
+                <ul class="breadcrumb text-uppercase black">
+                    <li class="breadcrumb-item"><a routerLink="/">Trang chủ</a></li>
+                    <li class="breadcrumb-item active">Profile</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+<section>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css" />
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!------ Include the above in your HEAD tag ---------->
+
+    <div class="container emp-profile">
+        <form method="post">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="profile-img">
+                        <img style="width: 50%; height: 50%"
+                            src="{{ apisHost + currentUserLogin?.extraProperties.Avatar }}" alt="" />
+                        <div class="file btn btn-lg btn-primary">
+                            Change Photo
+                            <input type="file" name="file" multiple (change)="selectedFileInput($event.target.files)" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="profile-head">
+                        <h5>
+                            {{ currentUserLogin?.name }}
+                        </h5>
+
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
+                                    aria-controls="home" aria-selected="true">Information</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <input type="submit" class="profile-edit-btn" name="btnAddMore" value="Edit Profile"
+                        (click)="onClickEdit()" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-8">
+                    <div class="tab-content profile-tab" id="myTabContent">
+                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                            <form>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>UserName</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p *ngIf="!editForm">{{ currentUserLogin?.userName }}</p>
+                                        <input [disabled]="true" *ngIf="editForm" [(ngModel)]="currentUserLogin.userName" name="userName"
+                                            type="text" required />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Name</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p *ngIf="!editForm">{{ currentUserLogin?.name }}</p>
+                                        <input *ngIf="editForm" [(ngModel)]="currentUserLogin.name" name="name"
+                                            type="text" required />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Birthday</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p *ngIf="!editForm">{{ currentUserLogin?.extraProperties.DateOfBirth |date}}</p>
+                                        <input *ngIf="editForm"
+                                            [(ngModel)]="currentUserLogin?.extraProperties.DateOfBirth"
+                                            name="dateOfBirth" type="text" required />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Email</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p *ngIf="!editForm">{{ currentUserLogin?.email }}</p>
+                                        <input *ngIf="editForm" [(ngModel)]="currentUserLogin.email" name="email"
+                                            type="text" required />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Phone</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p *ngIf="!editForm">{{ currentUserLogin?.phoneNumber }}</p>
+                                        <input *ngIf="editForm" [(ngModel)]="currentUserLogin.phoneNumber"
+                                            name="phoneNumber" type="text" required />
+                                    </div>
+                                </div>
+                                <button *ngIf="editForm" class="btn btn-info" (click)="updateProfile()">
+                                    Cập Nhật
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- <form *ngIf="editForm" #registerForm="ngForm" class="contact_form" action="#" method="POST"
+                            enctype="multipart/form-data">
+                            <div class="contact-info">
+                                <input [(ngModel)]="currentUserLogin.userName" class="name" name="Name" type="text"
+                                    placeholder="Your Fullname" required />
+                            </div>
+                            <div class="contact-info">
+                                <input [(ngModel)]="currentUserLogin.email" class="dob" name="DOB" type="text"
+                                    placeholder="Your Date Of Birth*" required />
+                            </div>
+                            <div class="contact-info">
+                                <input [(ngModel)]="currentUserLogin.name" class="mail" name="Email" type="text"
+                                    placeholder="Your Email*" required />
+                            </div>
+                            <div class="contact-info">
+                                <input [(ngModel)]="currentUserLogin.surname" class="name" name="SurName" type="text"
+                                    placeholder="Your Username*" required />
+                            </div>
+                            <div class="contact-info">
+                                <input [(ngModel)]="currentUserLogin.phoneNumber" class="pass" name="name" type="text"
+                                    placeholder="Your Password*" required />
+                            </div>
+                            <div class="nws-button text-center white text-capitalize">
+                                <button (click)="updateProfile()" type="submit" value="Submit">Đăng Ký</button>
+                            </div>
+                        </form> -->
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>

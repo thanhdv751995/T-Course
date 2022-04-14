@@ -1,0 +1,175 @@
+
+<section id="main-content">
+  <section class="wrapper">
+    <section id="breadcrumb" class="breadcrumb-section relative-position backgroud-style">
+      <div class="blakish-overlay"></div>
+      <div class="container">
+        <div class="page-breadcrumb-content text-center">
+          <div class="page-breadcrumb-title">
+            <h2 class="breadcrumb-head black bold">CÁC KHOÁ HỌC <span>CỦA TMT</span></h2>
+          </div>
+          <div class="page-breadcrumb-item ul-li">
+            <ul class="breadcrumb text-uppercase black">
+              <li class="breadcrumb-item">
+                <a [routerLink]="['/']" routerLinkActive="router-link-active">
+                  Trang Chủ
+                </a>
+              </li>
+              <li class="breadcrumb-item active">Courses</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Start of course section
+        ============================================= -->
+    <section id="course-page" class="course-page-section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-9">
+            <div class="short-filter-tab">
+              <ul class="filter-course">
+                <li><a routerLink="/courses">Theo Lộ Trình</a></li>
+                <li><a routerLink="/courses/type/relative">Phù Hợp</a></li>
+                <li><a routerLink="/courses/type/newest">Mới Nhất</a></li>
+              </ul>
+            </div>
+            
+            <div class="genius-post-item">
+              <div class="tab-container">
+                <div id="tab1">
+                  <div class="best-course-area best-course-v2">
+                    <div class="row">
+                      <div *ngFor="let course of coursesMaxResultCount?.items" class="col-md-4">
+                        <div class="best-course-pic-text relative-position">
+                          <div class="best-course-pic relative-position">
+                            <img class="customImg" src="{{course.url}}" alt="">
+                            <div *ngIf="course?.countStudent>=countForTrending" class="trend-badge-2 text-center text-uppercase">
+                              <i class="fas fa-bolt"></i>
+                              <span>Trending</span>
+                            </div>
+                            <!--  -->
+                            <div class="course-details-btn">
+                              <a routerLink="/courses/{{course.id}}">Chi Tiết Khoá Học <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                            <div class="blakish-overlay"></div>
+                          </div>
+                          <div class="best-course-text">
+                            <div class="course-title mb20 headline relative-position">
+                              <h3>
+                                <a routerLink="/courses/{{course.id}}"  >
+                                  {{course.name}}
+                                </a>
+                              </h3>
+                            </div>
+                            <div class="course-meta">
+                              <span class="course-category"><a routerLink="/courses/category/{{course.idCategory}}">{{course.categoryName}}</a></span>
+                              <span class="course-author"><a (click)="GetStudentJoinCourse(course?.id)">{{course?.countStudent}} Students</a></span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- /course -->
+
+                    </div>
+                  </div>
+                </div><!-- /tab-1 -->
+
+
+              </div>
+            </div>
+
+            <div class="couse-pagination text-center ul-li" id="page" style="padding-bottom: 15px;">
+              <ul>
+                <li class="pg-text"><a *ngIf="currentPage>1" [routerLink]="['/courses']" [queryParams]="{Page:currentPage-1}">PREV</a></li>
+                <li *ngFor="let page of listPageNumberTotal" [class.active]="currentPage==page"><a [routerLink]="['/courses']" [queryParams]="{Page:page}">{{page}}</a></li>
+                <li class="pg-text"><a *ngIf="currentPage<totalPageNumberOfCourse" [routerLink]="['/courses']" [queryParams]="{Page:currentPage+1}">NEXT</a></li>
+              </ul>
+            </div>
+            
+          </div>
+
+          <div style="margin-top: 6.5%;" class="col-md-3">   
+            <div class="side-bar">
+              <div class="side-bar-widget first-widget">
+                <div class="listing-filter-form pb30">
+                    <div class="filter-select mb20">
+                      <div class="affiliate-market-accordion">
+                        <div *ngFor="let category of category?.items" id="accordion" class="panel-group">
+                          <div class="panel">
+                            <div class="ac-head">
+                              <button class="btn btn-outline">
+                                      <span>
+                                        <a type="button" class="customType" routerLink="/courses/category/{{category?.id}}">{{category?.name}}</a>
+                                      </span>
+                              </button>
+                            </div>
+                          </div>   
+                        </div>
+                      </div>
+                    </div>
+                    <div class="filter-search mb20">
+                      <label>TỪ KHOÁ</label>
+                      <input *ngIf="searchParams; else falseSearchParams" [value]="searchParams" (change)="searchParams=$event.target.value" type="text" placeholder="Looking for?">
+                      <ng-template #falseSearchParams>
+                      <input [value]="" (change)="searchParams=$event.target.value" type="text" placeholder="Looking for?">
+                      </ng-template>
+                    </div>
+                    <div class="genius-btn gradient-bg text-center text-uppercase ul-li-block bold-font">
+                      <a [routerLink]="['/courses']" [queryParams]="{Search:searchParams}">TÌM KHOÁ HỌC <i class="fas fa-caret-right"></i></a>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div [style.display]="showModal ? 'block' : 'none'" class="modal" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-body">
+          <input [(ngModel)] = "searchText" type="text" name="search"  autocomplete="off"  class="form-control search-menu" placeholder="Search...">
+          <!-- <img src="{{modalImage}}" id="imagepreview" style="width: 100%; height: 100%;" > -->
+          <table class="table">
+            <thead>
+              <tr class="thead-dark customHover">
+                <th (click) = "sort('index')"  scope="col">STT <i class="fa fa-sort"></i></th>
+                <th (click) = "sort('userName')" scope="col">Người Dùng <i class="fa fa-sort"></i></th>
+                <th (click) = "sort('creationTime')" scope="col">TG Tham Gia <i class="fa fa-sort"></i></th>
+                <th>Chặn</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let StudentJoin of StudentJoinCourse?.items|orderBy : key : reserve| filter:searchText;index as index">
+                <th scope="row">{{index+1}}</th>
+                <td>{{StudentJoin?.userName}}</td>
+                <td>{{StudentJoin?.creationTime|date}}</td>
+                <td *ngIf="checkRoleAdmin;else showLockUser">
+                  <button *ngIf="!StudentJoin.hasBeenLock;else unLock" [hidden]="currentUserLogin==StudentJoin?.idUser" (click)="SetHasBeenLock(StudentJoin.id,StudentJoin.idCourse)" type="button" class="btn btn-outline-danger"><i class="fas fa-user-slash"></i></button>
+                  <ng-template #unLock>
+                    <button (click)="SetHasBeenLock(StudentJoin.id,StudentJoin.idCourse)" type="button" class="btn btn-outline-info"><i class="fas fa-user-plus"></i></button>
+                  </ng-template>
+                  
+                </td>
+                <ng-template #showLockUser>
+                  <td>
+                    <button *ngIf="StudentJoin.hasBeenLock" [disabled]="StudentJoin.hasBeenLock" type="button" class="btn btn-outline-danger"><i class="fas fa-user-slash"></i></button>
+                  </td>
+                </ng-template>
+
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" (click) = "hide()">Close</button>
+        </div>
+        </div>
+        </div>
+        </div>
+    </section>
+    <!-- End of course section
+      ============================================= -->
+    </section>
+</section>
+

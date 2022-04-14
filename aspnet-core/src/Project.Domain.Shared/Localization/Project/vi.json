@@ -1,0 +1,21 @@
+{
+  "culture": "vi",
+  "texts": {
+    "Menu:Home": "Trang chủ",
+    "Menu:Courses": "Khóa Học",
+    "Menu:AboutUs": "Về Chúng Tôi",
+    "Menu:Contact": "Liên Hệ",
+    "Menu:LogOut": "Đăng Xuất",
+    "Menu:Vietnamese": "Việt Nam",
+    "Menu:English": "Tiếng Anh",
+    "Solution": "Giải Pháp Sáng Tạo & Thân Thiện Dành Cho Giáo Dục",
+    "EasyCode": "CODE LÀ DỄ VỚI TMT",
+    "LearnTogether": "Cùng Nhau Học Lập Trình",
+    "DescriptionSub": "{0}",
+    "Responses": "Khóa Học Học Viên Theo Học Nhiều Và Có Phản Hồi Tích Cực.",
+    "Welcome": "Chào mừng bạn",
+    "Close": "Đóng",
+    "Delete": "Xóa",
+    "LongWelcomeMessage": "Chào mừng bạn đến ứng dụng. Đây là một dự án khởi nghiệp dựa trên khung ABP. Để biết thêm thông tin, hãy truy cập abp.io."
+  }
+}

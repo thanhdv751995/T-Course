@@ -1,0 +1,206 @@
+<div class="container">
+    <div class="table-wrapper">
+      <div class="table-title">
+        <div class="row">
+          <div class="col-sm-12">
+            <h2 style="text-align: center; font-weight:bold ;" >Quản lý khóa học</h2>
+          </div>
+        </div>
+      </div>
+      <div class="search">
+        <div>
+          <div class="input-group" style="padding-right: 70%;padding-bottom: 9px" >
+            <input [(ngModel)] = "searchText" type="text" name="search"  autocomplete="off"  class="form-control search-menu" placeholder="Search...">
+            <div class="input-group-append">
+              <span class="input-group-text">
+                <i class="fa fa-search" aria-hidden="true"></i>
+              </span>
+            </div>
+            <div style="position:absolute; left:500px;">
+              <label style="padding-right: 15px;font-weight: bold;">Tìm Theo Danh Mục</label>
+              <nz-select
+              nzShowSearch
+              nzAllowClear
+              nzPlaceHolder="Select a category"
+              [(ngModel)]="selectedOption"
+              (ngModelChange)="selectcategory()"
+            >
+              <nz-option [nzValue]="0" nzLabel="All"></nz-option>
+              <nz-option
+                *ngFor="let category of categories$ | async"
+                [nzLabel]="category.name"
+                [nzValue]="category"
+              ></nz-option>
+            </nz-select>
+
+            </div>
+            <div style="position:absolute;right:0">
+              <button id="create" class="btn btn-success" type="button" (click)="createCourse()">
+                  
+                <i class="fa fa-plus-square"></i>&nbsp; <span>Thêm khóa học</span>
+              
+              </button>           
+            </div>
+          </div>
+        </div>
+        </div>
+        <div class="table-responsive bs-example widget-shadow">
+          <table class="table table-striped">
+            <thead class="thead-light"> 
+              <tr>
+                <th></th>
+                <th (click)="sort('id')"style="width:100px;">Id<i class="fa fa-sort"></i></th>
+                <th (click)="sort('name')" style="width:200px;">Tên khóa học<i class="fa fa-sort"></i></th>
+                <th (click)="sort('description')" style="width: 372px;">Mô tả<i class="fa fa-sort"></i></th>
+                <th (click)="sort('categoryName')" style="width: 125px">Danh mục<i class="fa fa-sort"></i></th>
+                <th (click)="sort('nameUser')" style="width: 135px">Người dùng<i class="fa fa-sort"></i></th>
+                <th (click)="sort('benefit')" style="width: 200px">Lợi ích<i class="fa fa-sort"></i></th>
+                <th (click)="sort('url')"style="width: 200px">Hình ảnh khóa học<i class="fa fa-sort"></i></th>
+                <th style="width: 60px ;">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let c of courses?.items  |orderBy : key : reserve| filter:searchText | slice: (SkipCount-1) * MaxResultCount : SkipCount * MaxResultCount">
+                <td></td>
+                <td>{{c?.id}}</td>
+                <td>{{c?.name}}</td>
+                <td>{{c?.description}}</td>
+                <td>{{c?.categoryName}}</td>
+                <td>{{c?.nameUser}}</td>
+                <td>{{c?.benefit}}</td>
+                <td style="word-break: break-all">{{c?.url}}</td>
+                <td>
+                  <a class="edit" type="button" (click)="createLess(c?.id)"><i class="material-icons" data-toggle="tooltip"
+                    title="CreateLesson">&#xea20;</i></a>
+
+                  <a class="edit" type="button" (click)="editCourse(c?.id)"
+                    ><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a
+                  >
+                  <a class="delete" type="button"  (click)="delete(c.id)"
+                    ><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a
+                  >
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      
+      <div  class="hint-text">Tổng <b>{{courses.totalCount}}</b> khóa học</div>
+      <ngb-pagination class="pagination" 
+      [(page)]="SkipCount"
+      [pageSize]="MaxResultCount"
+      [collectionSize]="courses.totalCount">
+      </ngb-pagination>
+    </div>
+  </div>
+  <!-- Edit Modal HTML -->
+
+  <abp-modal [(visible)]="isModalOpen">
+    <ng-template #abpHeader>
+      <h3>{{ (selectedCourse.id ? '::Sửa Khóa Học' : '::Thêm Khóa Học') | abpLocalization }} <img src="../../../assets/img/favicon/favicon-4.png" ></h3>
+    </ng-template>
+  
+    <ng-template #abpBody>
+      <form nz-form [formGroup]="form" (ngSubmit)="save()">
+        <div class="form-group">
+          <label for="name">Tên khóa học</label><span> * </span>
+          <input type="text" id="name" class="form-control" formControlName="name" autofocus />
+        </div>
+        <div class="form-group">
+          <label for="description">Mô tả</label><span> * </span>
+          <input type="text" id="description" class="form-control" formControlName="description" />
+        </div>
+        <div class="form-group">
+          <label for="benefit">Lợi ích</label><span> * </span>
+          <input type="text" id="benefit" class="form-control" formControlName="benefit" />
+        </div>
+        <div class="form-group">
+          <label for="url">Hình ảnh</label><span> * </span>
+          <input type="text" id="url" class="form-control" formControlName="url" />
+        </div>
+        <div class="form-group">
+          <label for="category-id">Chọn danh mục</label><span> * </span>
+          <br />
+          <nz-select id="trong" nzShowSearch nzAllowClear nzPlaceHolder="Select a category" formControlName="idCategory" [nzBackdrop]="true">
+            
+              <nz-option
+                *ngFor="let category of categories$ | async"
+                [nzLabel]="category.name"
+                [nzValue]="category.id"
+              ></nz-option>
+          </nz-select>
+        </div>
+        <div class="form-group">
+          <label for="user-id">Chọn User</label><span> * </span>
+          <br />
+          <nz-select id="trong" nzShowSearch nzAllowClear nzPlaceHolder="Select a user" formControlName="idUser" [nzBackdrop]="true">
+            
+              <nz-option
+                *ngFor="let user of users$ | async"
+                [nzLabel]="user.name"
+                [nzValue]="user.id"
+              ></nz-option>
+          </nz-select>
+        </div>
+  
+      </form>
+    </ng-template>
+  
+    <ng-template #abpFooter>
+      <button type="button" class="btn btn-secondary" #abpClose>
+        {{ '::Close' | abpLocalization }}
+      </button>
+  
+      <button class="btn btn-primary" (click)="save()" [disabled]="form.invalid">
+        <i class="fa fa-check mr-1"></i>
+        {{ '::Save' | abpLocalization }}
+      </button>
+    </ng-template>
+  </abp-modal>
+
+  <abp-modal [(visible)]="isModalOpen2">
+    <ng-template #abpHeader>
+      <h3>{{ (selectedLesson.id ? '::Sửa Bài Học' : '::Thêm Bài Học') | abpLocalization }} <img src="../../../assets/img/favicon/favicon-4.png" ></h3>
+    </ng-template>
+
+    <ng-template #abpBody>
+      <form [formGroup]="form" (ngSubmit)="save()">
+        <div class="form-group">
+          <label for="name">Tên bài học</label>
+          <input type="text" id="name" class="form-control" formControlName="name" autofocus />
+        </div>
+        <div class="form-group">
+          <label for="description">Mô tả</label>
+          <input type="text" id="description" class="form-control" formControlName="description" />
+        </div>
+        <div class="form-group">
+          <label for="course-id">Chọn khóa học</label>
+          <br />
+          <nz-select id="trong" nzShowSearch nzAllowClear nzPlaceHolder="Select a course" formControlName="idCourse" [nzBackdrop]="true">
+            
+              <nz-option
+                *ngFor="let course of course$ | async"
+                [nzLabel]="course.name"
+                [nzValue]="course.id"
+              ></nz-option>
+          </nz-select>
+        </div>
+        <div class="form-group">
+          <label for="url">Link video bài học</label>
+          <input type="text" id="url" class="form-control" formControlName="url" />
+        </div>
+
+      </form>
+    </ng-template>
+
+    <ng-template #abpFooter>
+      <button type="button" class="btn btn-secondary" #abpClose>
+        {{ '::Close' | abpLocalization }}
+      </button>
+
+      <button class="btn btn-primary" (click)="save2()" [disabled]="form.invalid">
+        <i class="fa fa-check mr-1"></i>
+        {{ '::Save' | abpLocalization }}
+      </button>
+    </ng-template>
+  </abp-modal>

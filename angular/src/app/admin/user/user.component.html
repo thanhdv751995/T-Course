@@ -1,0 +1,172 @@
+<div class="container">
+  <div class="table-wrapper">
+    <div class="table-title">
+      <div class="row">
+        <div class="col-sm-12">
+          <h2 style="text-align: center; font-weight: bold">Quản lý người dùng</h2>
+        </div>
+      </div>
+    </div>
+    <div class="search">
+      <div>
+        <div class="input-group" style="padding-right: 70%; padding-bottom: 9px">
+          <input
+            [(ngModel)]="searchText"
+            type="text"
+            name="search"
+            autocomplete="off"
+            class="form-control search-menu"
+            placeholder="Search..."
+          />
+          <div class="input-group-append">
+            <span class="input-group-text">
+              <i class="fa fa-search" aria-hidden="true"></i>
+            </span>
+          </div>
+          <!-- <div style="position: absolute; right: 0">
+            <button id="create" class="btn btn-success" type="button" (click)="createUser()">
+              <i class="fa fa-plus-square"></i>&nbsp; <span>Thêm người dùng</span>
+            </button>
+          </div> -->
+        </div>
+      </div>
+    </div>
+    <div class="table-responsive bs-example widget-shadow">
+      <table class="table table-striped table-hover">
+        <thead class="thead-light">
+          <tr>
+            <th></th>
+            <th (click)="sort('id')" style="width: 470px;">Id<i class="fa fa-sort"></i></th>
+            <th (click)="sort('userName')"style="width: 230px;">Tài khoản<i class="fa fa-sort"></i></th>
+            <th (click)="sort('name')"style="width: 300px;" >Tên người dùng<i class="fa fa-sort"></i></th>
+            <th (click)="sort('email')">Email<i class="fa fa-sort"></i></th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="
+              let cat of user?.items
+                | orderBy: key:reserve
+                | filter: searchText
+                | slice: (SkipCount - 1) * MaxResultCount:SkipCount * MaxResultCount
+            "
+          >
+            <td></td>
+            <td>{{ cat?.id }}</td>
+            <td>{{ cat?.userName }}</td>
+            <td>{{ cat?.name }}</td>
+            <td>{{ cat?.email }}</td>
+            <td>
+              <!-- <a class="edit" type="button" (click)="editUser(cat.id)"
+                ><i class="material-icons" data-toggle="tooltip" title="Edit">&#xf02e;</i></a
+              > -->
+              <a *ngIf="currentUserLoginApi.userName!=cat.userName" class="delete" type="button" (click)="delete(cat.id)"
+                ><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a
+              >
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="hint-text">
+        Tổng <b>{{ user.totalCount }}</b>
+      </div>
+      <ngb-pagination
+        class="d-flex justify-content-center"
+        [(page)]="SkipCount"
+        [pageSize]="MaxResultCount"
+        [collectionSize]="user.totalCount"
+      >
+      </ngb-pagination>
+    </div>
+  </div>
+  <!-- Edit Modal HTML -->
+  <abp-modal [(visible)]="isModalOpen">
+    <ng-template #abpHeader>
+      <h3>{{ (selectedUser.id ? '::Sửa Thông Tin Người Dùng' : '::Thêm Người Dùng') | abpLocalization }} <img src="../../../assets/img/favicon/favicon-4.png" ></h3>
+    </ng-template>
+
+    <ng-template #abpBody>
+      <form [formGroup]="form" (ngSubmit)="save()">
+        <div class="form-group">
+          <label for="user-name">Tài khoản</label><span> * </span>
+          <input
+            type="text"
+            id="userName"
+            class="form-control"
+            formControlName="userName"
+            autofocus
+          />
+        </div>
+        <div class="form-group">
+          <label for="user-pass">Mật khẩu</label><span> * </span>
+          <input
+            type="text"
+            id="password"
+            class="form-control"
+            formControlName="password"
+            autofocus
+          />
+        </div>
+        <div class="form-group">
+          <label for="user-name">Tên người dùng</label><span> * </span>
+          <input type="text" id="name" class="form-control" formControlName="name" autofocus />
+        </div>
+        <div class="form-group">
+          <label for="user-email">Email</label><span> * </span>
+          <input type="text" id="email" class="form-control" formControlName="email" />
+        </div>
+        <div class="form-group">
+          <label for="user-dateOfBirth">DOB</label><span> * </span>
+          <input type="date" id="dateOfBirth" class="form-control" formControlName="dateOfBirth" />
+        </div>
+        <div class="form-group">
+          <label for="user-avatar">Ảnh đại diện</label><span> * </span>
+          <input type="text" id="avatar" class="form-control" formControlName="avatar" />
+        </div>
+      </form>
+    </ng-template>
+
+    <ng-template #abpFooter>
+      <button type="button" class="btn btn-secondary" #abpClose>
+        {{ '::Close' | abpLocalization }}
+      </button>
+
+      <button class="btn btn-primary" (click)="save()" [disabled]="form.invalid">
+        <i class="fa fa-check mr-1"></i>
+        {{ '::Save' | abpLocalization }}
+      </button>
+    </ng-template>
+  </abp-modal>
+  <abp-modal [(visible)]="isModalOpen1">
+    <ng-template #abpHeader>
+      <h3>{{ (selectedUser.id ? '::Edit' : '::New') | abpLocalization }}</h3>
+    </ng-template>
+
+    <ng-template #abpBody>
+      <form [formGroup]="form" (ngSubmit)="save()">
+        <div class="form-group">
+          <label for="role-roleName">Tên quyền</label><span> * </span>
+          <input
+            type="text"
+            id="roleName"
+            class="form-control"
+            formControlName="roleName"
+            autofocus
+          />
+        </div>
+      </form>
+    </ng-template>
+
+    <ng-template #abpFooter>
+      <button type="button" class="btn btn-secondary" #abpClose>
+        {{ '::Close' | abpLocalization }}
+      </button>
+
+      <button class="btn btn-primary" (click)="save()" [disabled]="form.invalid">
+        <i class="fa fa-check mr-1"></i>
+        {{ '::Save' | abpLocalization }}
+      </button>
+    </ng-template>
+  </abp-modal>
+</div>

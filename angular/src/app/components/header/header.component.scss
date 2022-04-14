@@ -1,0 +1,67 @@
+.modal-header .gradient-bg {
+  right: 0;
+}
+// img{
+//   height: 70px;
+// }
+.dropbtn {
+  background-color: transparent;
+  color: white;
+  font-weight: 500;
+
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+/* Dùng trong <div> để định vị nội dung thả xuống */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  
+}
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  border-bottom: 0.5px solid whitesmoke;
+  font-weight: 500;
+  font-size: small;
+}
+.dropdown-content a:hover {
+  color: rgb(129, 126, 126);
+}
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+.dropdown:hover .dropbtn {
+  font-size: 15px;
+}
+.all{
+  position: inline-block;
+}
+input.ng-touched.ng-invalid{
+  border: 1px solid red;
+}
+.customHover{
+  cursor: pointer;
+}
+.pass{
+  color: rgb(8, 72, 146);
+  font-size: 12px;
+}
+.fas{
+  font-size: 30px;
+}
+.lang{
+  margin-right: 10px;
+}

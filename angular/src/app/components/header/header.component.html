@@ -1,0 +1,315 @@
+
+<header>
+
+  <!--<section id="header-area" class="header-area-section" style="border-top: 1px solid black;">-->
+  <div id="main-menu" class="main-menu-container">
+    <div class="main-menu">
+      <div class="container">
+        <div class="navbar-default">
+          <div class="navbar-header float-left">
+            <a class="navbar-brand text-uppercase" href="https://truongminhthinh.com/" target="blank">
+              <img src="../assets/img/logo/TMTlogo.png" alt="logo">
+            </a>
+          </div><!-- /.navbar-header -->
+
+
+          <div class="cart-search float-right ul-li">
+
+          </div>
+          <div class="log-in float-right">
+            <div *ngIf="!currentUserLogin;else HasLogin"  class="Login-logout">
+              <ul>
+                <li>
+                  <a data-toggle="modal" data-target="#myModalLogin" href="#"
+                    style="padding: 7px 5px 7px 15px;" data-backdrop="false" data-keyboard="true">Đăng nhập</a>
+                </li>
+                <li class="separate" style="color: white;">
+                  |
+                </li>
+                <li>
+                  <a data-toggle="modal" data-target="#myModalRegister" href="#" data-backdrop="false" data-keyboard="true"
+                  style="padding-left:5px">Đăng ký</a>
+                </li>
+                <li> 
+                  
+                </li>
+              </ul>
+            </div>
+            <ng-template #HasLogin>
+              <ul>
+                <li>
+                  <div data-toggle="modal" href="#" style="padding: 0px 5px 7px 15px; float:left;" data-backdrop="false" data-keyboard="true">
+                    <img class="rounded-circle" alt="DefaultAvatar" src="{{apisHost+ currentUserLoginApi?.extraProperties.Avatar}}" style="height: 32px;" />
+                    
+                  </div>
+                  <div class="dropdown">
+                    <button class="dropbtn">{{currentUserLoginApi?.name}} <i class="fas fa-caret-down"></i></button>
+                    <div class="dropdown-content">
+                    <a *ngIf="currentUserLogin.role==admin" [routerLink]="['/admin']"><i class="fas fa-info-circle"> </i>&nbsp;Trang Admin</a>
+                    <a [routerLink]="['/Profile']"><i class="fas fa-info-circle"> </i>&nbsp;Thông tin</a>
+                    <a class="customHover" (click)="showM()"><i class="fa fa-bookmark" > </i>&nbsp;Khóa Học Tham Gia</a>
+                    <a type="button" (click)="logOut()"><i class="fas fa-sign-out-alt"> </i>&nbsp;Đăng xuất</a>
+                    </div>
+                  </div>                 
+                </li>
+              </ul>
+            </ng-template>
+            <!-- The Modal LOGIN -->
+            <div class="modal fade" id="myModalLogin" tabindex="-1" role="dialog" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-top">
+                <div class="modal-content">
+
+                  <!-- Modal Header -->
+                  <div class="modal-header backgroud-style">
+                    <div class="gradient-bg"></div>
+                    <div class="popup-logo">
+                      <img src="../assets/img/favicon/favicon-2.png" alt=""
+                          style="background-color: aliceblue;">
+                    </div>
+                    <div class="popup-text text-center">
+                      <h2> <span>Đăng Nhập</span> Tài Khoản</h2>
+
+                    </div>
+                  </div>
+
+                  <!-- Modal body -->
+                  <div class="modal-body">
+                    <div class="facebook-login">
+                      <a href="#">
+                        <div class="log-in-icon">
+                          <i class="fab fa-facebook-f"></i>
+                        </div>
+                        <div class="log-in-text text-center">
+                          Đăng nhập với Facebook
+                        </div>
+                      </a>
+                    </div>
+                    <div class="google-login">
+                      <a href="#">
+                        <div class="log-in-icon-g">
+                          <i class="fab fa-google"></i>
+                        </div>
+                        <div class="log-in-text text-center">
+                          Đăng nhập với Google
+                        </div>
+                      </a>
+                    </div>
+                    <div class="alt-text text-center"><a href="#">HOẶC</a> </div>
+                      <div *ngIf="loginFalse" class="alert alert-danger" role="alert">
+                        Xin vui lòng kiểm tra lại thông tin tài khoản hoặc mật khẩu!
+                      </div>
+                    <form nz-form class="contact_form" [formGroup]="validateForm" action="#" method="POST"
+                          enctype="multipart/form-data" #f="ngForm">
+                      <div class="contact-info">
+                        <input class="name" name="UserName" type="userName" formControlName="UserName"
+                        placeholder="Your Username*" required>
+                      </div>
+                      <div class="contact-info">
+                        <input class="pass" name="Password" type="password" formControlName="Password"
+                        placeholder="Your Password*" required>
+                      </div>
+                      <div class="nws-button text-center white text-capitalize">
+                        <button [disabled]="isLoading" type="submit" value="Submit" (click)="submitForm(f)" >
+                          <img style="width: 20px;height: 20px;" *ngIf="isLoading" src="../../assets/img/giphy (1).gif" />
+                          Đăng Nhập</button>
+                      </div>
+                    </form>
+                    <div class="log-in-footer text-center">
+                      <a data-dismiss="modal" class="pass" routerLink="/forgotpass">Quên mật khẩu</a> 
+                      <p>Bạn Chưa Có Tài Khoản?</p>
+                                             
+                      <div class="alt-text-a text-center-a">
+                        <a data-toggle="modal" data-target="#myModalRegister"
+                          data-dismiss="modal" href="#" data-backdrop="false" data-keyboard="true">Đăng ký ngay</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- The Modal REGISTER -->
+          <div class="modal fade" id="myModalRegister" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header backgroud-style">
+                  <div class="gradient-bg"></div>
+                  <div class="popup-logo">
+                    <img src="../assets/img/favicon/favicon-2.png" alt=""
+                      style="background-color: aliceblue;">
+                  </div>
+                  <div class="popup-text text-center">
+                    <h2> <span>Đăng Ký</span>  Tài Khoản</h2>
+
+                  </div>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                  <div class="facebook-register">
+                    <a href="#">
+                      <div class="register-icon">
+                        <i class="fab fa-facebook-f"></i>
+                      </div>
+                      <div class="register-text text-center">
+                        Đăng ký với Facebook
+                      </div>
+                    </a>
+                  </div>
+                  <div class="google-login">
+                    <a href="#">
+                      <div class="register-icon-g">
+                        <i class="fab fa-google"></i>
+                      </div>
+                      <div class="register-text text-center">
+                        Đăng ký với Google
+                      </div>
+                    </a>
+                  </div>
+                  <div class="alt-text text-center"><a href="#">HOẶC</a> </div>
+                  <div *ngIf="registerFalse" class="alert alert-danger" role="alert">
+                    Đăng ký thất bại vui lòng kiểm tra lại thông tin!
+                    <div *ngFor="let error of errorDetails" class="alert alert-danger" role="alert">
+                      {{error.description}}
+                    </div>
+                  </div>
+
+                  <form #registerForm="ngForm" class="contact_form" action="#" method="POST"
+                        enctype="multipart/form-data">
+                    <div class="contact-info">
+                      <input [(ngModel)]="Name" class="name" name="Name" type="text" placeholder="Your Fullname" required>
+                    </div>
+                    <div class="contact-info">
+                      <input [(ngModel)]="dateOfBirth" class="dob" name="DOB" type="date"
+                        placeholder="Your Date Of Birth*" required>
+                    </div>
+                    <div class="contact-info">
+                      <input [(ngModel)]="Email" class="mail" name="Email" type="email" placeholder="Your Email*" required>
+                    </div>
+                    <div class="contact-info">
+                      <input [(ngModel)]="userName" class="name" name="Email" type="email"
+                        placeholder="Your Username*" required>
+                    </div>
+                    <div class="contact-info">
+                      <input [(ngModel)]="password" class="pass" name="name" type="password"
+                        placeholder="Your Password*" required>
+                    </div>
+                    <div class="nws-button text-center white text-capitalize">
+                      <button [disabled]="!registerForm.valid" (click)="Register()" 
+                      type="submit" value="Submit">
+                      <img style="width: 20px;height: 20px;" *ngIf="isLoading" src="../../assets/img/giphy (1).gif" />
+                      Đăng Ký</button>
+                    </div>
+                  </form>
+                  <div class="log-in-footer text-center">
+                    
+                    <p>Bạn đã có tài khoản? </p>
+                    <div class="alt-text-a text-center-a">
+                      <a data-toggle="modal" data-target="#myModalLogin" data-dismiss="modal" data-backdrop="false" data-keyboard="true"
+                        href="#">ĐĂNG NHẬP NGAY</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <nav class="navbar-menu float-right">
+          <div class="nav-menu ul-li">
+            <ul>
+              <li class="menu-item-has-children ul-li-block">
+                <a [routerLink]="['/']" routerLinkActive="router-link-active">
+                  {{ '::Menu:Home' | abpLocalization }}
+                </a>
+              </li>
+
+              <li class="menu-item-has-children ul-li-block">
+                <a [routerLink]="['/courses']" routerLinkActive="router-link-active">
+                  {{ '::Menu:Courses' | abpLocalization }}
+                </a>
+              </li>
+              <li>
+                <a [routerLink]="['/aboutus']" routerLinkActive="router-link-active">
+                  {{ '::Menu:AboutUs' | abpLocalization }}
+                </a>
+              </li>
+              <li>
+                <a [routerLink]="['/contactus']" routerLinkActive="router-link-active">
+                  {{ '::Menu:Contact' | abpLocalization }}
+                </a>
+              </li>
+              <div class="dropdown">
+                <img class="" alt="Avatar" src="{{setImg}}" style="height: 30px;" />
+                <button class="dropbtn"><i class=""></i></button>
+                <div class="dropdown-content">
+                  <a type="button" style="color: #047ef8 ;" (click)="setLanguage('vi')">
+                    <img class="lang" alt="Avatar" src="{{imgvi}}" style="height: 15px;" /> Việt Nam
+                  </a>
+                  <a type="button" style="color: #047ef8 ;" (click)="setLanguage('en')">
+                    <img class="lang" alt="Avatar" src="{{imgen}}" style="height: 15px;" />English
+                  </a>
+                </div>
+              </div>   
+              <!-- <li style="color: #f8f9fa ;">|</li>
+              <li>
+                <a type="button" style="color: #f8f9fa ;" (click)="setLanguage('vi')">
+                  {{ '::Menu:Vietnamese' | abpLocalization }}
+                </a>
+              </li><li>
+                <a type="button" style="color: #f8f9fa ;" (click)="setLanguage('en')">
+                  {{ '::Menu:English' | abpLocalization }}
+                </a>
+              </li> -->
+            </ul>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <div [style.display]="showModal ? 'block' : 'none'" class="modal" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+    <div class="modal-content">
+    <div class="modal-body">
+      <table class="table">
+    
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">STT</th>
+            <th scope="col">Tên Khóa Học</th>
+            <th scope="col">TG Tham Gia</th>
+            <th scope="col">Cảnh Báo</th>
+          </tr>
+        </thead>
+        <tbody *ngIf="listCourseUserJoin?.totalCount>0;else NoJoinCourse">
+          <tr *ngFor="let course of listCourseUserJoin?.items;index as index">
+            <th scope="row">{{index+1}}</th>
+            <td>{{course?.coursesName}}</td>
+            <td>{{course?.creationTime|date}}</td>
+            <td *ngIf="course.hasBeenLock;else NoBlock">
+              <button [disabled]="course.hasBeenLock" type="button" class="btn btn-outline-danger"><i class="fa fa-ban"></i> Banned</button>
+            </td>
+            <ng-template #NoBlock>
+              <td></td>
+            </ng-template>
+            
+          </tr>
+        </tbody>
+        <ng-template #NoJoinCourse>
+          <tbody>
+            <td colspan="5" style="text-align: center;"><h5>Bạn Chưa Tham Gia Khóa Học Nào <a routerLink='/courses' style="color: blue;">Tham Gia Ngay</a></h5></td>
+            
+          </tbody>
+        </ng-template>
+      </table>
+      
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" data-dismiss="modal" (click) = "hide()">Close</button>
+    </div>
+    </div>
+    </div>
+    </div>
+</header>

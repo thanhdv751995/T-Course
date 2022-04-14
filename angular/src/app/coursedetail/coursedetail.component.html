@@ -1,0 +1,315 @@
+
+  <!-- Start of Header section
+  ============================================= -->
+  <!-- Start of breadcrumb section
+  ============================================= -->
+  <section id="breadcrumb" class="breadcrumb-section relative-position backgroud-style">
+    <div class="blakish-overlay"></div>
+    <div class="container">
+      <div class="page-breadcrumb-content text-center">
+        <div class="page-breadcrumb-title">
+          <h2 class="breadcrumb-head black bold"><span>Chi Tiết</span> Khoá Học</h2>
+        </div>
+        <div class="page-breadcrumb-item ul-li">
+          <ul class="breadcrumb text-uppercase black">
+            <li class="breadcrumb-item"><a routerLink="/">Trang Chủ</a></li>
+            <li class="breadcrumb-item active">Chi Tiết</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- End of breadcrumb section
+  ============================================= -->
+  <!-- Start of course details section
+  ============================================= -->
+  <section id="course-details" class="course-details-section">
+    <div *ngIf="flag" class="container">
+      <div class="row">
+        <div class="col-md-8">
+          <div class="course-details-item">
+           
+            
+            
+            <div class="course-single-text">
+              <div class="course-title mt10 headline relative-position">
+                <h3><b>
+                  <a>{{courses?.name}}</a> <span *ngIf="courses?.countStudent>=countForTrending" class="trend-badge text-uppercase bold-font">
+                    <i class="fas fa-bolt"></i>
+                    TRENDING
+                  </span>
+                </b></h3>
+              </div>
+              <div class="course-details-content">
+                <p>
+                 {{courses?.description}}
+                </p>
+                <div>
+                  <h3>Bạn sẽ học được gì</h3>
+                  <section>
+                    <section>
+                      <ul class="Target">
+                            {{courses?.benefit}}
+                      </ul>
+                    </section>
+              <div class="affiliate-market-guide mb65">
+							<div class="section-title-2 mb20 headline text-left">
+								<h2><span>Giới thiệu</span> bài học</h2>
+							</div>
+
+							<div *ngIf="isHaveLesson; else falseHaveLessonD"  class="affiliate-market-accordion">
+								<div id="accordion" class="panel-group">
+									<div class="panel">
+										<div class="panel-title" id="headingOne">
+											<div class="ac-head">
+												
+												<button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+													<span>01</span>	{{lessons?.items[0].lessonName}}
+												</button>
+												<div class="course-by">
+													BY: <b>{{lessons?.items[0].nameUser}}</b> 
+												</div>
+												<div class="leanth-course">
+
+													<span>{{lessons?.items[0].categoryName}}</span>
+												</div>
+											</div>
+										</div>
+										<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+											<div class="panel-body">
+												{{lessons?.items[0].lessonDescription}}
+											</div>
+										</div>
+									</div>
+
+
+
+								</div>
+							</div>
+              <ng-template #falseHaveLessonD>
+             
+             
+              <div class="card-body">
+               <h5 class="card-title">Không có bài học</h5>
+               </div>
+            </ng-template>
+						</div>
+						<!-- /market guide -->
+                  </section>
+                </div>
+              </div>
+              <h2><span>Khóa học <b>liên quan:</b></span></h2>
+              <div class="course-details-category ul-li">
+                
+                <ul *ngFor="let course of listCourseByID?.items">
+                  <li><a routerLink="/courses/{{course.id}}">{{course.name}}</a></li>
+                </ul>
+              </div>
+            </div>
+            
+            <div class="course-review">
+              <div class="section-title-2 mb20 headline text-left">
+                <h2><span>Đánh Giá</span> Khoá Học:</h2>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="ratting-preview">
+                    <div class="row">
+                      <div class="col-md-4">
+                        <div class="avrg-rating ul-li">
+                          <b>Trung bình</b>
+                          <span class="avrg-rate">{{courses?.rateAverage}}</span>
+                          <b>{{rates?.items.length}} Đánh giá</b>
+                        </div>
+                      </div>
+                      <div class="col-md-8">
+                        <div class="avrg-rating ul-li">
+                          <span>Chi Tiết</span>
+                          <div class="rating-overview">
+                            <span class="start-item">5 Sao</span>
+                            <span class="start-bar"></span>
+                            <span class="start-count">{{star5}}</span>
+                          </div>
+                          <div class="rating-overview">
+                            <span class="start-item">4 Sao</span>
+                            <span class="start-bar"></span>
+                            <span class="start-count">{{star4}}</span>
+                          </div>
+                          <div class="rating-overview">
+                            <span class="start-item">3 Sao</span>
+                            <span class="start-bar"></span>
+                            <span class="start-count">{{star3}}</span>
+                          </div>
+                          <div class="rating-overview">
+                            <span class="start-item">2 Sao</span>
+                            <span class="start-bar"></span>
+                            <span class="start-count">{{star2}}</span>
+                          </div>
+                          <div class="rating-overview">
+                            <span class="start-item">1 Sao</span>
+                            <span class="start-bar"></span>
+                            <span class="start-count">{{star1}}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="couse-comment">
+              <div class="blog-comment-area ul-li about-teacher-2">
+                <ul *ngFor="let rate of rates?.items" class="comment-list">
+                  
+                    <div class=" comment-avater">
+                      <img class="mr-3 rounded-circle" src="{{apisHost+rate?.avarta}}" alt="">
+                      
+                    </div>
+                    
+                    <div class="author-name-rate">
+                      <div class="author-name float-left">
+                        BỞI: <span>{{rate.userName}}</span>
+                      </div>
+                      
+                      <div ngSwitch="{{rate?.ratePoint}}" class="comment-ratting float-right ul-li">
+                        <ul *ngSwitchCase="5">
+                          <li><i class="fas fa-star"></i></li>
+                          <li><i class="fas fa-star"></i></li>
+                          <li><i class="fas fa-star"></i></li>
+                          <li><i class="fas fa-star"></i></li>
+                          <li><i class="fas fa-star"></i></li>
+                        </ul>
+                        <ul *ngSwitchCase="4">
+                          <li><i class="fas fa-star"></i></li>
+                          <li><i class="fas fa-star"></i></li>
+                          <li><i class="fas fa-star"></i></li>
+                          <li><i class="fas fa-star"></i></li>
+                        </ul>
+                        <ul *ngSwitchCase="3">
+                          <li><i class="fas fa-star"></i></li>
+                          <li><i class="fas fa-star"></i></li>
+                          <li><i class="fas fa-star"></i></li>
+                        </ul>
+                        <ul *ngSwitchCase="2">
+                          <li><i class="fas fa-star"></i></li>
+                          <li><i class="fas fa-star"></i></li>
+                        </ul>
+                        <ul *ngSwitchCase="1">
+                          <li><i class="fas fa-star"></i></li>
+                        </ul>
+                      </div>
+                      <div class="time-comment float-right">{{rate.creationTime|date:'medium'}}</div>
+                    </div>
+                    <div>
+                    <div class="author-designation-comment">
+                      <h3>{{rate.content}}
+                        <img style="display: inherit;" src="{{rate?.url}}">
+                        <div *ngIf="rate?.idUser==currentUserLogin" class="dropdown1">
+                          <span><b>...</b></span>
+                          <div class="dropdown-content">
+                          <a type="button" (click)="EditRate(rate.id)">Chỉnh sửa
+                           
+                          </a>
+                          <br>
+                           <a type="button" (click)="onDelete(rate.id)" >Xóa</a>
+                          </div>
+                        </div>
+                        <!-- <button *ngIf="rate?.idUser==currentUserLogin" (click)="onDelete(rate.id)" type="button" class="btn btn-danger btn-sm comment-ratting float-right ul-li">Xóa</button>
+                        <button *ngIf="rate?.idUser==currentUserLogin" type="button" class="btn btn-primary btn-sm comment-ratting float-right ul-li" (click)="EditRate(rate.id)">Sửa</button> -->
+                      </h3>
+                      <br>
+                      <br>
+                      <br>
+                    </div>
+                  </div>
+                </ul>
+                <div class="wrapper-button">
+                <button *ngIf="courses?.rateCount>0" (click)="loadMore()" type="button" class="btn btn-link">{{load}}</button>
+                </div>
+                <div class="reply-comment-box" style="padding-bottom: 10px;">
+                  <div class="review-option">
+                    <div class="section-title-2  headline text-left float-left">
+                      <h2>Thêm <span>Đánh Giá</span></h2>
+                      <div class="col-sm-12">
+                        <ul class="list-inline rating-list" *ngFor="let star of stars" style="display: inline-block" >
+                          <li (click)="countStar(star)"
+                          [ngClass]="{'selected': (star <= selectedValue)}">
+                          <i class="fa fa-star"></i>
+                        </li> 
+                        </ul>
+                      </div>
+                    </div>
+                </div>
+                <div class="row">
+                
+                </div>
+                  <div class="teacher-faq-form">
+                    <form data-lead="Residential" enctype="multipart/form-data">
+                      <label for="comments">Nội dung</label>
+                      <textarea name="comments" id="comments" rows="2" cols="20"
+                                required="required"  [(ngModel)]="content"></textarea>
+                      <div *ngIf="currentUserLogin" class="nws-button text-center  gradient-bg text-uppercase">
+                        <button (click)="createRate()">Gửi nội dung</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div *ngIf="flagLesson" class="col-md-4" style="right:0">
+         
+          <div class="affiliate-market-accordion">
+            <div *ngIf="isHaveLesson; else falseHaveLesson" class="card" style="width: 35.1rem;">
+
+              <iframe class="e2e-iframe-trusted-src" width="524" height="315" [src]="videoUrl" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              
+              <div class="card-body">
+               <h5 class="card-title">Thông tin về khóa học</h5>
+               <div class="couse-feature ul-li-block">
+								<ul>
+									<li>Bài Học<span>{{lessons?.totalCount}} Bài Học</span></li>
+                  <li><i class="fa fa-free-code-camp" aria-hidden="true"></i><span>Học mọi lúc, mọi nơi</span></li>
+                  <li><i class="fa fa-braille" aria-hidden="true"></i><span>Trình độ cơ bản</span></li>
+                  <br>
+									</ul>
+                  <ul>
+                     
+                  </ul>
+							</div>
+                
+                <a *ngIf="currentUserLogin" (click)="checkJoinCourse()"
+                class="genius-btn gradient-bg text-center text-uppercase ul-li-block customHover">Tham Gia Ngay</a>
+              </div>
+            </div>
+            <ng-template #falseHaveLesson>
+             
+              <iframe class="e2e-iframe-trusted-src" width="524" height="315" [src]="videoUrl" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              
+              <div class="card-body">
+               <h5 class="card-title">Không có bài học</h5>
+               </div>
+            </ng-template>
+          </div>
+          
+        </div>
+        
+      </div>
+    </div>
+  </section>
+  <!-- End of course details section
+  ============================================= -->
+  <!-- Start of footer section
+  ============================================= -->
+  
+  <!-- End of footer section
+  ============================================= -->
+
+  
+
+<!-- Mirrored from jthemes.net/themes/html/genius-course/course-details.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 26 Mar 2021 03:53:14 GMT -->
+
